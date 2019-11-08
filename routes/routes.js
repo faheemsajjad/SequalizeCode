@@ -1,4 +1,6 @@
 module.exports = function (app) {
-    //admin controller
-    app.use("/admin", require("../controllers/Admin"));
+    
+    app.use("/emp", require("../controllers/Employee"));
+    app.use("/dept", require("../controllers/Dept"));
+    app.use("/sal", require("../controllers/Salgrade"));
 };

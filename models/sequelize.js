@@ -4,11 +4,11 @@ const fs        = require('fs');
 const path      = require('path');
 const basename  = path.basename(module.filename);
 
-const sequelize = new Sequelize('zameen_lms', 'aatdropshipdb', 'imzee691', { username: 'aatdropshipdb',
-  password: 'imzee691',
-  database: 'zameen_lms',
-  host: '192.168.1.51',
-  dialect: 'mysql' 
+const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USERNAME, process.env.DB_PASSWORD, 
+{ 
+  host: process.env.DB_HOST,
+  dialect: 'mysql',
+  'port' : 3306
 })
 
 
@@ -19,7 +19,6 @@ fs
   .filter(dir => {return (dir !== basename);})
   .forEach(dir => { 
 
-      var knex = sequelize;
       let directory = __dirname + "/" + dir;
 
       fs
@@ -29,12 +28,18 @@ fs
         })
         .forEach(file => { 
 
-            let model = require(directory + "/"+file);
+            var model = sequelize['import'](path.join(directory, file));
 
-            let name = file.split(".");
-            
-            db[name[0]] = model(sequelize, Sequelize)
+            db[model.name] = model;
         });
+
+         Object.keys(db).forEach(modelName => {
+          if (db[modelName].associate) {
+            db[modelName].associate(db);
+          }
+        });
+
+
   });
 
 sequelize.sync()
