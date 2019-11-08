@@ -26,8 +26,7 @@ class employee extends Model {
 			type: Sequelize.DATE, 
 			defaultValue: Sequelize.NOW 
 		},
-		salary:Sequelize.INTEGER, 
-		dep_id:Sequelize.INTEGER
+		salary:Sequelize.INTEGER
     }
 
     return schema;

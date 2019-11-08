@@ -13,7 +13,7 @@ class dept extends Model {
 
   static getTableSchema(){
     const schema = {
-        dept_id: {
+        id: {
           type: Sequelize.INTEGER,
           primaryKey: true,
           autoIncrement: true
